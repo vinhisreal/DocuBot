@@ -20,7 +20,7 @@ class Config(CustomBaseSettings):
     DATABASE_POOL_PRE_PING: bool = True
 
     ENVIRONMENT: Environment = Environment.PRODUCTION
-    GOOGLE_API_KEY: str = "AIzaSyA3zSglp1eXGA-k7fVF-9pwjEdf3pj0-FE"
+    GOOGLE_API_KEY: str = ""
     SENTRY_DSN: str | None = None
 
     CORS_ORIGINS: list[str] = ["*"]
