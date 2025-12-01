@@ -13,8 +13,8 @@ class CustomBaseSettings(BaseSettings):
 
 
 class Config(CustomBaseSettings):
-    DATABASE_URL: str = "sqlite:///./sql_app.db"
-    DATABASE_ASYNC_URL: str = "sqlite+aiosqlite:///./sql_app.db"
+    DATABASE_URL: str 
+    DATABASE_ASYNC_URL: str
     DATABASE_POOL_SIZE: int = 16
     DATABASE_POOL_TTL: int = 60 * 20  
     DATABASE_POOL_PRE_PING: bool = True

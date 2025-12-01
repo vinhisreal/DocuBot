@@ -7,6 +7,8 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     sources: List[str] = []
+    topic: str | None = None
+    topic_changed: bool | None=None
 
 # --- MODEL MỚI CHO DOCUMENT ---
 class DocumentInfo(BaseModel):

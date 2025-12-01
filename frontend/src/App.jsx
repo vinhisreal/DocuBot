@@ -47,6 +47,7 @@ export default function App() {
 
   // Load file lần đầu
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchFiles();
   }, [fetchFiles]); // Thêm fetchFiles vào dependency array cho đúng chuẩn
 
@@ -63,11 +64,6 @@ export default function App() {
       alert("Xóa thất bại!");
     }
   };
-
-  // Load file lần đầu
-  useEffect(() => {
-    fetchFiles();
-  }, []);
 
   const sendMessage = async () => {
     if (!query.trim()) return;
@@ -170,7 +166,7 @@ export default function App() {
           </div>
 
           <div className="mt-auto pt-4 text-[10px] text-gray-600 text-center border-t border-gray-800">
-            Powered by RAG & Gemini
+            Powered by Vinhisreal
           </div>
         </div>
       </div>
@@ -186,7 +182,7 @@ export default function App() {
             <Menu size={20} />
           </button>
           <span className="font-semibold text-gray-300 opacity-0 md:opacity-100 transition-opacity text-sm">
-            Gemini Clone
+            Document ChatBot
           </span>
           <div className="w-8"></div>
         </div>
