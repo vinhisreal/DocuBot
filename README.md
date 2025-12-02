@@ -6,25 +6,25 @@
 ![React](https://img.shields.io/badge/Frontend-React_Vite-61DAFB.svg)
 ![LangChain](https://img.shields.io/badge/AI-LangChain-orange.svg)
 
-**DocuBot** là hệ thống trợ lý ảo thông minh sử dụng kỹ thuật **RAG (Retrieval-Augmented Generation)**, cho phép người dùng tải lên tài liệu PDF và hỏi đáp nội dung liên quan bằng ngôn ngữ tự nhiên (Tiếng Việt). Hệ thống kết hợp sức mạnh của **Google Gemini** để sinh câu trả lời và **FAISS** để tìm kiếm ngữ nghĩa tốc độ cao.
+**DocuBot** is an intelligent virtual assistant system utilizing **RAG (Retrieval-Augmented Generation)** technology. It allows users to upload PDF documents and ask questions related to their content using natural language (optimized for Vietnamese). The system combines the power of **Google Gemini** for answer generation and **FAISS** for high-speed semantic search.
 
 ---
 
-## 🚀 Tính năng chính
+## 🚀 Key Features
 
-- **📄 Ingest Documents:** Tải lên, đọc và phân mảnh (chunking) file PDF tự động.
-- **🔍 Hybrid Database:** Kiến trúc lai kết hợp:
-  - **SQLite:** Quản lý metadata file (ID, tên, ngày tạo) nhanh chóng.
-  - **FAISS:** Vector Database lưu trữ ngữ nghĩa văn bản để tìm kiếm siêu tốc.
-- **🧠 AI Powered:** Sử dụng mô hình **Google Gemini 2.5 Flash** (Context window lớn) để tổng hợp câu trả lời.
-- **🇻🇳 Vietnamese Optimized:** Tối ưu hóa cho tiếng Việt với model Embedding **BKAI (bkai-foundation-models/vietnamese-bi-encoder)**.
-- **💬 Smart Router:** Tự động phân loại câu hỏi và định tuyến đến đúng tài liệu cần tìm.
-- **📝 Citation:** Trích dẫn nguồn (tên file gốc) cho mỗi câu trả lời để đảm bảo độ tin cậy.
-- **🎨 Modern UI:** Giao diện ReactJS (Vite) hiện đại, hỗ trợ Dark Mode, Markdown rendering.
+- **📄 Document Ingestion:** Automatically upload, read, and chunk PDF files.
+- **🔍 Hybrid Database:** A robust architecture combining:
+  - **SQLite:** Fast metadata management (ID, filename, upload date).
+  - **FAISS:** Vector Database for high-speed semantic search.
+- **🧠 AI Powered:** Powered by the **Google Gemini 2.5 Flash** model (Large context window) for generating comprehensive and accurate answers.
+- **🇻🇳 Vietnamese Optimized:** Optimized for the Vietnamese language using the **BKAI Embedding model** (`bkai-foundation-models/vietnamese-bi-encoder`).
+- **💬 Smart Router:** Automatically classifies user questions and routes them to the relevant document context.
+- **📝 Citation:** Provides source citations (original filename) for every answer to ensure reliability.
+- **🎨 Modern UI:** A modern ReactJS (Vite) interface with Dark Mode support and Markdown rendering.
 
 ---
 
-## 🛠️ Công nghệ sử dụng
+## 🛠️ Tech Stack
 
 ### Backend (Python)
 - **Core Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Async, High performance).
@@ -32,7 +32,7 @@
 - **LLM Provider:** Google Gemini API (`gemini-2.5-flash`).
 - **Embeddings:** HuggingFace (`sentence-transformers` / `bkai-foundation-models`).
 - **Vector Store:** [FAISS](https://github.com/facebookresearch/faiss) (CPU).
-- **Database:** SQLite (với `aiosqlite` & `SQLAlchemy` async).
+- **Database:** SQLite (with `aiosqlite` & `SQLAlchemy` async).
 
 ### Frontend (JavaScript)
 - **Framework:** ReactJS + Vite.
@@ -43,44 +43,66 @@
 
 ---
 
-## ⚙️ Cài đặt & Chạy dự án
+## ⚙️ Installation & Setup
 
-### 1. Yêu cầu tiên quyết (Prerequisites)
-- Python 3.10 trở lên.
-- Node.js 18 trở lên.
-- API Key Google Gemini (Lấy miễn phí tại [Google AI Studio](https://aistudio.google.com/)).
+### 1. Prerequisites
+- Python 3.10 or higher.
+- Node.js 18 or higher.
+- Google Gemini API Key (Get it for free at [Google AI Studio](https://aistudio.google.com/)).
+### 2. Configuration (.env)
+Create a .env file in the root directory of the project (same level as the src folder). You can copy the content below for Backend:
+```bash
+  # --- SERVER CONFIGURATION ---
+  ENVIRONMENT=LOCAL
+  # Allow Frontend to call API (CORS) - Add your frontend URL here
+  CORS_ORIGINS=["http://localhost:3000"]
+  CORS_HEADERS=["*"]
 
-### 2. Thiết lập Backend
+  # --- DATABASE (SQLite Async) ---
+  # No installation required, file will be created automatically
+  DATABASE_URL=sqlite:///./rag_app.db
+  DATABASE_ASYNC_URL=sqlite+aiosqlite:///./rag_app.db
+
+  # --- AI KEYS ---
+  # Replace with your actual Google API Key
+  GOOGLE_API_KEY=AIzaSyDxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+### 2. Backend Setup
 
 ```bash
-# Clone dự án
+# Clone the repository
 git clone [https://github.com/vinhisreal/DocuBot.git](https://github.com/vinhisreal/DocuBot.git)
 cd DocuBot
 
-# Tạo môi trường ảo (Khuyến nghị)
+# Create a virtual environment (Recommended)
 python -m venv venv
+
+# Activate virtual environment
 # Windows:
 .\venv\Scripts\activate
 # Linux/Mac:
 source venv/bin/activate
 
-# Cài đặt thư viện
+# Install dependencies
 pip install -r requirements.txt
 
-# Cấu hình biến môi trường (Xem mục Cấu hình bên dưới)
-# Chạy Server
+# Configure environment variables (See Configuration section below)
+
+# Run the Server
 uvicorn src.main:app --reload
+```
+The backend server will start at: http://127.0.0.1:8000
 
-### 3. Thiết lập Frontend
-
-Mở một terminal mới (không tắt terminal backend):
-
+### 3. Frontend Setup
+Open a new terminal (keep the backend terminal running):
 ```bash
-# 1. Vào thư mục frontend
+# Navigate to frontend directory
 cd frontend
 
-# 2. Cài đặt các thư viện (Node Modules)
+# Install dependencies
 npm install
 
-# 3. Chạy giao diện ở chế độ Developer
+# Run development server
 npm run dev
+```
