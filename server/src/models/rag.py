@@ -10,17 +10,16 @@ class ChatResponse(BaseModel):
     topic: str | None = None
     topic_changed: bool | None=None
 
-# --- MODEL MỚI CHO DOCUMENT ---
 class DocumentInfo(BaseModel):
     id: str
     filename: str
 
 class ListFilesResponse(BaseModel):
-    documents: List[DocumentInfo] # Trả về cả ID và Tên
+    documents: List[DocumentInfo] 
     count: int
 
 class IngestResponse(BaseModel):
-    id: str       # Trả về ID vừa tạo
+    id: str       
     filename: str
     message: str
     chunks_count: int

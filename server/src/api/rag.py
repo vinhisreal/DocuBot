@@ -11,25 +11,22 @@ router = APIRouter()
 def get_rag_service():
     return RAGService()
 
-# 1. Khởi tạo Database khi app chạy (Tạo bảng nếu chưa có)
 @router.on_event("startup")
 async def startup_event():
     await init_db()
 
-# 2. API Ingest (Cần DB để lưu metadata)
 @router.post("/ingest", response_model=IngestResponse)
 async def ingest_pdf(
     file: UploadFile = File(...),
     service: RAGService = Depends(get_rag_service),
-    db: AsyncSession = Depends(get_db) # <--- Inject DB Session
+    db: AsyncSession = Depends(get_db) 
 ):
     return await service.ingest_file(file, db)
 
-# 3. API List Files (Lấy từ SQL -> Siêu nhanh)
 @router.get("/files", response_model=ListFilesResponse)
 async def get_all_documents(
     service: RAGService = Depends(get_rag_service),
-    db: AsyncSession = Depends(get_db) # <--- Inject DB Session
+    db: AsyncSession = Depends(get_db) 
 ):
     docs = await service.list_files(db)
     return ListFilesResponse(
@@ -37,22 +34,20 @@ async def get_all_documents(
         count=len(docs)
     )
 
-# 4. API Chat (Cần DB để Router lấy danh sách file)
 @router.post("/chat", response_model=ChatResponse)
 async def chat_document(
     request: ChatRequest,
     service: RAGService = Depends(get_rag_service),
-    db: AsyncSession = Depends(get_db) # <--- Inject DB Session
+    db: AsyncSession = Depends(get_db) 
 ):
     result = await service.chat(request.query, db)
     return ChatResponse(answer=result["answer"], sources=result["sources"])
 
-# 5. API Delete (Xóa SQL + FAISS)
 @router.delete("/files/{doc_id}", response_model=DeleteResponse)
 async def delete_document(
     doc_id: str, 
     service: RAGService = Depends(get_rag_service),
-    db: AsyncSession = Depends(get_db) # <--- Inject DB Session
+    db: AsyncSession = Depends(get_db) 
 ):
     message = await service.delete_file(doc_id, db)
     return DeleteResponse(message=message)

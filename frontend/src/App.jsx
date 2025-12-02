@@ -11,7 +11,7 @@ import {
   StopCircle,
   Trash2,
   FileText,
-} from "lucide-react"; // Import thêm Trash2, FileText
+} from "lucide-react"; 
 import UploadBox from "./components/UploadBox";
 
 const API_BASE = "http://127.0.0.1:8000/api/v1/rag";
@@ -29,36 +29,29 @@ export default function App() {
   const [files, setFiles] = useState([]);
   const messagesEndRef = useRef(null);
 
-  // Tự động cuộn
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // --- HÀM FETCH FILES ---
   const fetchFiles = useCallback(async () => {
     try {
       const res = await axios.get(`${API_BASE}/files`);
-      // Đảm bảo dữ liệu trả về là mảng, tránh lỗi map nếu null
       setFiles(res.data.documents || []);
     } catch (err) {
       console.error("Lỗi load file:", err);
     }
-  }, []); // [] nghĩa là hàm này không phụ thuộc biến nào bên ngoài, chỉ tạo 1 lần
-
-  // Load file lần đầu
+  }, []); 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchFiles();
-  }, [fetchFiles]); // Thêm fetchFiles vào dependency array cho đúng chuẩn
+  }, [fetchFiles]); 
 
-  // --- HÀM DELETE FILE (Thêm mới) ---
   const handleDelete = async (docId, filename) => {
     if (!window.confirm(`Xóa file "${filename}"? AI sẽ quên kiến thức này.`))
       return;
 
     try {
       await axios.delete(`${API_BASE}/files/${docId}`);
-      fetchFiles(); // Reload list sau khi xóa
+      fetchFiles(); 
     } catch (err) {
       console.error("Lỗi xóa file:", err);
       alert("Xóa thất bại!");
@@ -83,7 +76,7 @@ export default function App() {
         {
           role: "assistant",
           text: res.data.answer,
-          sources: res.data.sources, // Lưu nguồn
+          sources: res.data.sources, 
         },
       ]);
     } catch (err) {

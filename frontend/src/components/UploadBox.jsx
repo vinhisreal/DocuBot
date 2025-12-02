@@ -6,7 +6,7 @@ const API_INGEST_URL = "http://localhost:8000/api/v1/rag/ingest";
 
 export default function UploadBox({ onUploadSuccess, onError }) {
   const [file, setFile] = useState(null);
-  const [status, setStatus] = useState("idle"); // idle | uploading | success | error
+  const [status, setStatus] = useState("idle"); 
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -55,22 +55,20 @@ export default function UploadBox({ onUploadSuccess, onError }) {
       });
       
       setStatus("success");
-      setFile(null); // Reset file
+      setFile(null); 
       
-      // Gọi callback để báo cho App biết
       if (onUploadSuccess) onUploadSuccess(file.name);
 
-      setTimeout(() => setStatus("idle"), 3000); // Tự reset trạng thái sau 3s
+      setTimeout(() => setStatus("idle"), 3000); 
     } catch (error) {
       console.error(error);
       setStatus("error");
       if (onError) onError("Lỗi khi tải file lên server.");
     } finally {
-      setIsUploading(false); // Lưu ý: biến này chưa khai báo, dùng setStatus thay thế bên dưới
+      setIsUploading(false); 
     }
   };
   
-  // Fix lỗi logic nhỏ: setStatus("uploading") đã thay thế setIsUploading
   const isUploading = status === "uploading";
 
   const clearFile = () => {
@@ -89,7 +87,6 @@ export default function UploadBox({ onUploadSuccess, onError }) {
         className="hidden"
       />
 
-      {/* --- TRẠNG THÁI 1: CHƯA CHỌN FILE --- */}
       {!file && status !== "success" && (
         <div
           className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${
@@ -111,7 +108,6 @@ export default function UploadBox({ onUploadSuccess, onError }) {
         </div>
       )}
 
-      {/* --- TRẠNG THÁI 2: ĐÃ CHỌN FILE --- */}
       {file && status !== "success" && (
         <div className="bg-[#282A2C] rounded-xl p-3 border border-gray-700 animate-in fade-in slide-in-from-bottom-2">
           <div className="flex items-center justify-between mb-3">
@@ -163,7 +159,6 @@ export default function UploadBox({ onUploadSuccess, onError }) {
         </div>
       )}
 
-      {/* --- TRẠNG THÁI 3: THÀNH CÔNG --- */}
       {status === "success" && (
         <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 flex flex-col items-center animate-in zoom-in duration-300">
           <CheckCircle size={32} className="text-green-400 mb-2" />
