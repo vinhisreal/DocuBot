@@ -65,7 +65,7 @@ Create a .env file in the root directory of the project (same level as the src f
 
   # --- AI KEYS ---
   # Replace with your actual Google API Key
-  GOOGLE_API_KEY=AIzaSyDxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  GOOGLE_API_KEY=
 ```
 
 ### 2. Backend Setup
