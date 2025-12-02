@@ -72,7 +72,7 @@ Create a .env file in the root directory of the project (same level as the src f
 
 ```bash
 # Clone the repository
-git clone [https://github.com/vinhisreal/DocuBot.git](https://github.com/vinhisreal/DocuBot.git)
+git clone [https://github.com/vinhisreal/DocuBot.git]
 cd DocuBot
 
 # Create a virtual environment (Recommended)

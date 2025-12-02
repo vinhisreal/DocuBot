@@ -1,7 +1,7 @@
 import os
 import shutil
 import uuid
-import ast # Dùng ast.literal_eval thay vì eval cho an toàn
+import ast 
 from fastapi import UploadFile
 
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -10,7 +10,6 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 
-# Import chain chuẩn
 from langchain_classic.chains import create_retrieval_chain
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
@@ -152,3 +151,14 @@ class RAGService:
             "topic": topic,
             "topic_changed": changed
         }
+    async def reset_database(self, db: AsyncSession):
+        """Xóa sạch sành sanh SQL và Vector DB"""
+        
+        await db.execute(delete(Document)) 
+        await db.commit()
+
+        self.vector_db = FAISS.from_texts(["init"], self.embeddings)
+        self.vector_db.delete([self.vector_db.index_to_docstore_id[0]])
+        self.vector_db.save_local(FAISS_INDEX_PATH)
+
+        return "System reset successfully!"

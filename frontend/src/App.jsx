@@ -99,6 +99,27 @@ export default function App() {
       sendMessage();
     }
   };
+const handleNewChat = async () => {
+    if (!window.confirm("Bắt đầu cuộc trò chuyện mới? \nCẢNH BÁO: Tất cả file và lịch sử chat sẽ bị xóa sạch.")) return;
+    
+    try {
+        await axios.delete(`${API_BASE}/reset`);
+        
+        setMessages([
+          {
+            role: "assistant",
+            text: "Xin chào! Hệ thống đã được làm mới. Hãy upload tài liệu để bắt đầu.",
+          },
+        ]);
+        setQuery("");
+        fetchFiles(); 
+        
+    } catch (err) {
+        console.error("Lỗi reset:", err);
+    } finally {
+        setLoading(false);
+    }
+  };
 
   return (
     <div className="flex h-screen bg-[#131314] text-gray-200 font-sans overflow-hidden">
@@ -110,7 +131,7 @@ export default function App() {
       >
         <div className="p-4 flex flex-col h-full">
           <div
-            onClick={() => setMessages([])}
+            onClick={() => handleNewChat([])}
             className="flex items-center gap-3 bg-[#282A2C] hover:bg-[#37393B] p-3 rounded-full cursor-pointer transition-colors mb-6 text-sm font-medium text-gray-300 select-none"
           >
             <Plus size={18} />

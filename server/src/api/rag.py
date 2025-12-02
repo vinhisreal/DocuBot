@@ -51,3 +51,10 @@ async def delete_document(
 ):
     message = await service.delete_file(doc_id, db)
     return DeleteResponse(message=message)
+@router.delete("/reset", response_model=DeleteResponse)
+async def reset_system(
+    service: RAGService = Depends(get_rag_service),
+    db: AsyncSession = Depends(get_db)
+):
+    message = await service.reset_database(db)
+    return DeleteResponse(message=message)

@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 chroma_db/
+faiss_index/
 .Python
 build/
 develop-eggs/
